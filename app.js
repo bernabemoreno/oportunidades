@@ -2,28 +2,74 @@ function formatearPrecio(num) {
   return Number(num).toLocaleString("es-AR");
 }
 
-const config = {
-  nombre: "ventas",
+const configDefault = {
+  nombre: "catalogo",
   telefono: "5493516869573",
-  heroBadge: "Ventas y oportunidades",
-  heroTitulo: "Oportunidades en tecnología",
-  heroSubtitulo: "Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.",
-  servicioTitulo: "💻 Reparación de PC y notebooks",
-  servicioTexto1: "Presupuesto sin cargo, atención personalizada y soluciones claras.",
-  servicioTexto2: "Instalaciones, optimización, limpieza, revisión general y más.",
-  servicioPrecio: "Limpieza desde $20.000",
-  servicioBoxTitulo: "Consultá tu equipo sin compromiso",
-  servicioBoxTexto: "Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto."
+  heroBadge: "Categoría general",
+  heroTitulo: "Título general",
+  heroSubtitulo: "Descripción destacada del negocio o de una promoción importante.",
+  servicioTitulo: "Categoría o servicio destacado",
+  servicioTexto1: "Texto descriptivo general del servicio o del negocio.",
+  servicioTexto2: "Podés usar este bloque para explicar beneficios, tipo de atención o detalles importantes.",
+  servicioPrecio: "Promo destacada o precio base",
+  servicioBoxTitulo: "Texto comercial destacado",
+  servicioBoxTexto: "Descripción corta para invitar a consultar, comprar o pedir presupuesto.",
+  mostrarBotonInteresa: "si",
+  mostrarBotonOferta: "si",
+  textoBotonInteresa: "Me interesa",
+  textoBotonOferta: "Hacer oferta",
+  tooltipInteresa: "Abre WhatsApp con un mensaje para consultar este producto.",
+  tooltipOferta: "Te permite escribir una oferta por este producto antes de enviar el mensaje."
 };
+
+let config = { ...configDefault };
 
 const modal = document.getElementById("modalImagen");
 const imagenModal = document.getElementById("imagenModal");
 const cerrarModal = document.getElementById("cerrarModal");
 const contenedor = document.getElementById("productos");
 
+function parseCSVLine(line) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const next = line[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && next === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === "," && !inQuotes) {
+      result.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current.trim());
+  return result.map(value => {
+    if (value.startsWith('"') && value.endsWith('"')) {
+      return value.slice(1, -1).trim();
+    }
+    return value;
+  });
+}
+
+function valorBooleano(valor) {
+  const v = String(valor || "").trim().toLowerCase();
+  return v === "si" || v === "sí" || v === "true" || v === "1";
+}
+
 function setTexto(id, valor) {
   const el = document.getElementById(id);
-  if (el && valor) {
+  if (el && valor !== undefined && valor !== null) {
     el.textContent = valor;
   }
 }
@@ -38,6 +84,10 @@ function aplicarConfigEnPantalla() {
   setTexto("servicioPrecio", config.servicioPrecio);
   setTexto("servicioBoxTitulo", config.servicioBoxTitulo);
   setTexto("servicioBoxTexto", config.servicioBoxTexto);
+
+  if (config.heroTitulo) {
+    document.title = config.heroTitulo;
+  }
 }
 
 function abrirModal(src, alt) {
@@ -55,16 +105,20 @@ function cerrarModalImagen() {
   document.body.style.overflow = "";
 }
 
-cerrarModal.addEventListener("click", cerrarModalImagen);
+if (cerrarModal) {
+  cerrarModal.addEventListener("click", cerrarModalImagen);
+}
 
-modal.addEventListener("click", function (e) {
-  if (e.target === modal) {
-    cerrarModalImagen();
-  }
-});
+if (modal) {
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      cerrarModalImagen();
+    }
+  });
+}
 
 document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && modal.classList.contains("activo")) {
+  if (e.key === "Escape" && modal && modal.classList.contains("activo")) {
     cerrarModalImagen();
   }
 });
@@ -95,7 +149,7 @@ function enviarWhatsApp(nombre, precio, estado, tipo) {
 }
 
 async function cargarConfig() {
-  const res = await fetch("config.csv");
+  const res = await fetch("config.csv?v=" + Date.now());
   const texto = await res.text();
 
   const lineas = texto
@@ -104,13 +158,11 @@ async function cargarConfig() {
     .filter(l => l !== "");
 
   lineas.forEach(linea => {
-    const coma = linea.indexOf(",");
-    if (coma === -1) return;
+    const partes = parseCSVLine(linea);
+    const clave = partes[0];
+    const valor = partes.slice(1).join(",").trim();
 
-    const clave = linea.slice(0, coma).trim();
-    const valor = linea.slice(coma + 1).trim();
-
-    if (clave && valor && Object.prototype.hasOwnProperty.call(config, clave)) {
+    if (clave) {
       config[clave] = valor;
     }
   });
@@ -118,8 +170,22 @@ async function cargarConfig() {
   aplicarConfigEnPantalla();
 }
 
+function crearBoton(claseBoton, textoBoton, tooltipTexto, onClick) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "tooltip";
+  wrapper.setAttribute("data-tooltip", tooltipTexto || "");
+
+  const button = document.createElement("button");
+  button.className = claseBoton;
+  button.textContent = textoBoton;
+  button.onclick = onClick;
+
+  wrapper.appendChild(button);
+  return wrapper;
+}
+
 async function cargarProductos() {
-  const res = await fetch("productos.csv");
+  const res = await fetch("productos.csv?v=" + Date.now());
   const texto = await res.text();
 
   const lineas = texto
@@ -134,8 +200,12 @@ async function cargarProductos() {
     return;
   }
 
+  const mostrarInteresa = valorBooleano(config.mostrarBotonInteresa);
+  const mostrarOferta = valorBooleano(config.mostrarBotonOferta);
+
   lineas.forEach(function (linea) {
-    const partes = linea.split(",").map(x => x.trim());
+    const partes = parseCSVLine(linea);
+
     const nombre = partes[0];
     const precio = partes[1];
     const estado = partes[2];
@@ -168,26 +238,64 @@ async function cargarProductos() {
 
     const body = document.createElement("div");
     body.className = "card-body";
-    body.innerHTML =
-      '<h3>' + nombre + '</h3>' +
-      '<div class="precio">$' + formatearPrecio(precio) + '</div>' +
-      '<div class="estado">' + estado + '</div>' +
-      '<div class="acciones">' +
-        '<div class="tooltip" data-tooltip="Abre WhatsApp con un mensaje para consultar este producto">' +
-          '<button class="btn-interesa">Me interesa</button>' +
-        '</div>' +
-        '<div class="tooltip" data-tooltip="Te permite escribir una oferta por este producto antes de enviar el mensaje">' +
-          '<button class="btn-oferta">Hacer oferta</button>' +
-        '</div>' +
-      '</div>';
 
-    body.querySelector(".btn-interesa").onclick = function () {
-      enviarWhatsApp(nombre, precio, estado, "consulta");
-    };
+    const titulo = document.createElement("h3");
+    titulo.textContent = nombre;
 
-    body.querySelector(".btn-oferta").onclick = function () {
-      enviarWhatsApp(nombre, precio, estado, "oferta");
-    };
+    const precioEl = document.createElement("div");
+    precioEl.className = "precio";
+    precioEl.textContent = "$" + formatearPrecio(precio);
+
+    const estadoEl = document.createElement("div");
+    estadoEl.className = "estado";
+    estadoEl.textContent = estado;
+
+    const acciones = document.createElement("div");
+    acciones.className = "acciones";
+
+    let cantidadBotones = 0;
+
+    if (mostrarInteresa) {
+      cantidadBotones++;
+      acciones.appendChild(
+        crearBoton(
+          "btn-interesa",
+          config.textoBotonInteresa || "Me interesa",
+          config.tooltipInteresa || "",
+          function () {
+            enviarWhatsApp(nombre, precio, estado, "consulta");
+          }
+        )
+      );
+    }
+
+    if (mostrarOferta) {
+      cantidadBotones++;
+      acciones.appendChild(
+        crearBoton(
+          "btn-oferta",
+          config.textoBotonOferta || "Hacer oferta",
+          config.tooltipOferta || "",
+          function () {
+            enviarWhatsApp(nombre, precio, estado, "oferta");
+          }
+        )
+      );
+    }
+
+    if (cantidadBotones === 2) {
+      acciones.classList.add("dos-botones");
+    } else {
+      acciones.classList.add("un-boton");
+    }
+
+    body.appendChild(titulo);
+    body.appendChild(precioEl);
+    body.appendChild(estadoEl);
+
+    if (cantidadBotones > 0) {
+      body.appendChild(acciones);
+    }
 
     card.appendChild(imagenWrap);
     card.appendChild(body);
@@ -201,6 +309,7 @@ async function cargarProductos() {
 
 async function iniciar() {
   try {
+    aplicarConfigEnPantalla();
     await cargarConfig();
     await cargarProductos();
   } catch (error) {
@@ -209,5 +318,4 @@ async function iniciar() {
   }
 }
 
-aplicarConfigEnPantalla();
 iniciar();
