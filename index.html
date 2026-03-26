@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oportunidades en tecnología</title>
+  <title>Catálogo online</title>
   <style>
     * {
       box-sizing: border-box;
@@ -45,7 +45,7 @@
 
     .hero p {
       margin: 14px auto 0;
-      max-width: 760px;
+      max-width: 860px;
       font-size: clamp(16px, 2.1vw, 21px);
       color: rgba(255,255,255,0.92);
     }
@@ -220,9 +220,16 @@
 
     .acciones {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: auto;
+    }
+
+    .acciones.dos-botones {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .acciones.un-boton {
+      grid-template-columns: 1fr;
     }
 
     .tooltip {
@@ -248,6 +255,8 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.18);
       pointer-events: none;
       z-index: 10;
+      max-width: 240px;
+      text-align: center;
     }
 
     .tooltip::after {
@@ -283,6 +292,7 @@
       font-size: 15px;
       min-height: 52px;
       transition: transform .16s ease;
+      width: 100%;
     }
 
     button:hover {
@@ -390,34 +400,39 @@
         font-size: 30px;
       }
 
-      .acciones {
+      .acciones.dos-botones,
+      .acciones.un-boton {
         grid-template-columns: 1fr;
       }
 
       .card img {
         height: 220px;
       }
+
+      .tooltip::before {
+        white-space: normal;
+      }
     }
   </style>
 </head>
 <body>
   <header class="hero">
-    <div class="hero-badge" id="heroBadge">Ventas y oportunidades</div>
-    <h1 id="heroTitulo">Oportunidades en tecnología</h1>
-    <p id="heroSubtitulo">Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.</p>
+    <div class="hero-badge" id="heroBadge">Categoría general</div>
+    <h1 id="heroTitulo">Título general</h1>
+    <p id="heroSubtitulo">Descripción destacada del negocio o de una promoción importante.</p>
   </header>
 
   <main class="contenedor">
     <section class="servicio">
       <div>
-        <h2 id="servicioTitulo">💻 Reparación de PC y notebooks</h2>
-        <p id="servicioTexto1">Presupuesto sin cargo, atención personalizada y soluciones claras.</p>
-        <p id="servicioTexto2">Instalaciones, optimización, limpieza, revisión general y más.</p>
-        <span class="servicio-precio" id="servicioPrecio">Limpieza desde $20.000</span>
+        <h2 id="servicioTitulo">Categoría o servicio destacado</h2>
+        <p id="servicioTexto1">Texto descriptivo general del servicio o del negocio.</p>
+        <p id="servicioTexto2">Podés usar este bloque para explicar beneficios, tipo de atención o detalles importantes.</p>
+        <span class="servicio-precio" id="servicioPrecio">Promo destacada o precio base</span>
       </div>
       <div class="servicio-box">
-        <strong id="servicioBoxTitulo">Consultá tu equipo sin compromiso</strong>
-        <span id="servicioBoxTexto">Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto.</span>
+        <strong id="servicioBoxTitulo">Texto comercial destacado</strong>
+        <span id="servicioBoxTexto">Descripción corta para invitar a consultar, comprar o pedir presupuesto.</span>
       </div>
     </section>
 
@@ -433,6 +448,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
