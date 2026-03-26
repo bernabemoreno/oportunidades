@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas Tecnología</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f3f3f3;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0f7b47, #1da65d);
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .servicio {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-left: 6px solid #17884f;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+    }
+
+    .precio {
+      font-size: 20px;
+      font-weight: bold;
+      color: #17884f;
+      margin-bottom: 8px;
+    }
+
+    .estado {
+      background: #e9f7ef;
+      color: #17884f;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      flex: 1;
+      font-weight: bold;
+    }
+
+    .btn-interesa {
+      background: #17884f;
+      color: white;
+    }
+
+    .btn-oferta {
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔥 Oportunidades en Tecnología 🔥</h1>
+  <p>Equipos, accesorios y servicio técnico</p>
+</header>
+
+<div class="container">
+
+  <div class="servicio">
+    <h2>💻 Reparación de PC</h2>
+    <p>Presupuesto sin cargo</p>
+    <p>Limpieza desde $20.000</p>
+  </div>
+
+  <div class="grid" id="productos"></div>
+
+</div>
+
+<script>
+  const numeroWhatsApp = "5493516869573";
+
+  function formatearPrecio(precio) {
+    return Number(precio).toLocaleString("es-AR");
+  }
+
+  function enviarWhatsApp(nombre, precio, estado, tipo = "interes") {
+    let texto = "";
+
+    if (tipo === "oferta") {
+      const oferta = prompt("Ingresá tu oferta para " + nombre);
+      if (!oferta) return;
+
+      texto = `Hola, me interesa ${nombre}. Precio: $${formatearPrecio(precio)}. Estado: ${estado}. Mi oferta es: $${oferta}`;
+    } else {
+      texto = `Hola, me interesa ${nombre}. Precio: $${formatearPrecio(precio)}. Estado: ${estado}`;
+    }
+
+    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
+    window.open(url, "_blank");
+  }
+
+  fetch("productos.csv")
+    .then(res => res.text())
+    .then(data => {
+      const lineas = data.trim().split("\\n");
+      const contenedor = document.getElementById("productos");
+
+      lineas.forEach(linea => {
+        const [nombre, precio, estado, imagen] = linea.split(",").map(x => x.trim());
+
+        if (!nombre) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <img src="${imagen}" alt="${nombre}">
+          <div class="card-body">
+            <h3>${nombre}</h3>
+            <div class="precio">$${formatearPrecio(precio)}</div>
+            <div class="estado">${estado}</div>
+
+            <div class="acciones">
+              <button class="btn-interesa">Me interesa</button>
+              <button class="btn-oferta">Oferta</button>
+            </div>
+          </div>
+        `;
+
+        card.querySelector(".btn-interesa").onclick = () => {
+          enviarWhatsApp(nombre, precio, estado);
+        };
+
+        card.querySelector(".btn-oferta").onclick = () => {
+          enviarWhatsApp(nombre, precio, estado, "oferta");
+        };
+
+        contenedor.appendChild(card);
+      });
+    })
+    .catch(() => {
+      document.getElementById("productos").innerHTML = "Error cargando productos";
+    });
+</script>
+
+</body>
+</html>
