@@ -390,7 +390,7 @@
     });
 
     function enviarWhatsApp(nombre, precio, estado, tipo) {
-      var numero = (numeroWhatsApp || "5493516869573").replace(/\\D/g, "");
+      var numero = (numeroWhatsApp || "5493516869573").replace(/\D/g, "");
       var mensaje = "";
 
       if (tipo === "oferta") {
@@ -409,7 +409,7 @@
       .then(function (res) { return res.text(); })
       .then(function (texto) {
         var lineas = texto
-          .split(/\\r?\\n/)
+          .split(/\r?\n/)
           .map(function (linea) { return linea.trim(); })
           .filter(function (linea) { return linea !== ""; });
 
@@ -422,7 +422,7 @@
         }
 
         var primeraLinea = lineas.shift();
-        numeroWhatsApp = primeraLinea.replace(/\\D/g, "") || "5493516869573";
+        numeroWhatsApp = primeraLinea.replace(/\D/g, "") || "5493516869573";
 
         if (!lineas.length) {
           contenedor.innerHTML = '<div class="sin-productos">No hay productos cargados debajo del número de WhatsApp.</div>';
