@@ -1,11 +1,11 @@
-nombre,ventas
-telefono,+5493516869573
-heroBadge,Ventas y oportunidades
-heroTitulo,Oportunidades en tecnología
-heroSubtitulo,Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.
-servicioTitulo,💻 Reparación de PC y notebooks
-servicioTexto1,Presupuesto sin cargo, atención personalizada y soluciones claras.
-servicioTexto2,Instalaciones, optimización, limpieza, revisión general y más.
-servicioPrecio,Limpieza desde $20.000
-servicioBoxTitulo,Consultá tu equipo sin compromiso
-servicioBoxTexto,Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto.
+nombre|ventas
+telefono|+5493516869573
+heroBadge|Ventas y oportunidades
+heroTitulo|Oportunidades en tecnología
+heroSubtitulo|Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.
+servicioTitulo|💻 Reparación de PC y notebooks
+servicioTexto1|Presupuesto sin cargo, atención personalizada y soluciones claras.
+servicioTexto2|Instalaciones, optimización, limpieza, revisión general y más.
+servicioPrecio|Limpieza desde $20.000
+servicioBoxTitulo|Consultá tu equipo sin compromiso
+servicioBoxTexto|Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto.
