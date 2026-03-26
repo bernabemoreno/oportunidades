@@ -169,7 +169,7 @@
         card.className = "card";
 
         card.innerHTML = `
-          <img src="${imagen}" alt="${nombre}">
+          <img src="./${imagen.trim()}" alt="${nombre}">
           <div class="card-body">
             <h3>${nombre}</h3>
             <div class="precio">$${formatearPrecio(precio)}</div>
