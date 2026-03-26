@@ -2,13 +2,43 @@ function formatearPrecio(num) {
   return Number(num).toLocaleString("es-AR");
 }
 
-let numeroWhatsApp = "5493516869573";
-let nombreConfig = "ventas";
+const config = {
+  nombre: "ventas",
+  telefono: "5493516869573",
+  heroBadge: "Ventas y oportunidades",
+  heroTitulo: "Oportunidades en tecnología",
+  heroSubtitulo: "Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.",
+  servicioTitulo: "💻 Reparación de PC y notebooks",
+  servicioTexto1: "Presupuesto sin cargo, atención personalizada y soluciones claras.",
+  servicioTexto2: "Instalaciones, optimización, limpieza, revisión general y más.",
+  servicioPrecio: "Limpieza desde $20.000",
+  servicioBoxTitulo: "Consultá tu equipo sin compromiso",
+  servicioBoxTexto: "Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto."
+};
 
 const modal = document.getElementById("modalImagen");
 const imagenModal = document.getElementById("imagenModal");
 const cerrarModal = document.getElementById("cerrarModal");
 const contenedor = document.getElementById("productos");
+
+function setTexto(id, valor) {
+  const el = document.getElementById(id);
+  if (el && valor) {
+    el.textContent = valor;
+  }
+}
+
+function aplicarConfigEnPantalla() {
+  setTexto("heroBadge", config.heroBadge);
+  setTexto("heroTitulo", config.heroTitulo);
+  setTexto("heroSubtitulo", config.heroSubtitulo);
+  setTexto("servicioTitulo", config.servicioTitulo);
+  setTexto("servicioTexto1", config.servicioTexto1);
+  setTexto("servicioTexto2", config.servicioTexto2);
+  setTexto("servicioPrecio", config.servicioPrecio);
+  setTexto("servicioBoxTitulo", config.servicioBoxTitulo);
+  setTexto("servicioBoxTexto", config.servicioBoxTexto);
+}
 
 function abrirModal(src, alt) {
   imagenModal.src = src;
@@ -40,7 +70,7 @@ document.addEventListener("keydown", function (e) {
 });
 
 function enviarWhatsApp(nombre, precio, estado, tipo) {
-  const numero = (numeroWhatsApp || "").replace(/\D/g, "") || "5493516869573";
+  const numero = (config.telefono || "").replace(/\D/g, "") || "5493516869573";
   let mensaje = "";
 
   if (tipo === "oferta") {
@@ -73,16 +103,19 @@ async function cargarConfig() {
     .map(l => l.trim())
     .filter(l => l !== "");
 
-  if (!lineas.length) {
-    return;
-  }
+  lineas.forEach(linea => {
+    const coma = linea.indexOf(",");
+    if (coma === -1) return;
 
-  const partes = lineas[0].split(",").map(x => x.trim());
+    const clave = linea.slice(0, coma).trim();
+    const valor = linea.slice(coma + 1).trim();
 
-  if (partes.length >= 2) {
-    nombreConfig = partes[0];
-    numeroWhatsApp = partes[1];
-  }
+    if (clave && valor && Object.prototype.hasOwnProperty.call(config, clave)) {
+      config[clave] = valor;
+    }
+  });
+
+  aplicarConfigEnPantalla();
 }
 
 async function cargarProductos() {
@@ -176,4 +209,5 @@ async function iniciar() {
   }
 }
 
+aplicarConfigEnPantalla();
 iniciar();
