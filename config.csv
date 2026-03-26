@@ -1,17 +1,17 @@
-nombre,catalogo
+nombre,ventas
 telefono,+5493516869573
-heroBadge,"Categoría general"
-heroTitulo,"Título general"
-heroSubtitulo,"Descripción destacada del negocio o de una promoción importante."
-servicioTitulo,"Categoría o servicio destacado"
-servicioTexto1,"Texto descriptivo general del servicio o del negocio."
-servicioTexto2,"Podés usar este bloque para explicar beneficios, tipo de atención o detalles importantes."
-servicioPrecio,"Promo destacada o precio base"
-servicioBoxTitulo,"Texto comercial destacado"
-servicioBoxTexto,"Descripción corta para invitar a consultar, comprar o pedir presupuesto."
+heroBadge,"Tecnología y servicios"
+heroTitulo,"Soluciones rápidas para tu PC o notebook"
+heroSubtitulo,"Reparación, optimización y equipos listos para usar. Consultá sin compromiso y te asesoro directo por WhatsApp."
+servicioTitulo,"💻 Servicio técnico y soluciones"
+servicioTexto1,"Reparación de notebooks y PCs, limpieza interna, instalación de Windows, programas y mejoras de rendimiento."
+servicioTexto2,"Atención personalizada, diagnóstico claro y presupuesto sin cargo. Trabajo prolijo y confiable."
+servicioPrecio,"Limpieza desde $20.000"
+servicioBoxTitulo,"¿Tu equipo anda lento o tiene fallas?"
+servicioBoxTexto,"Escribime por WhatsApp y lo revisamos juntos. Te digo qué conviene hacer y cuánto te va a costar."
 mostrarBotonInteresa,si
-mostrarBotonOferta,si
-textoBotonInteresa,"Me interesa"
+mostrarBotonOferta,no
+textoBotonInteresa,"Consultar por WhatsApp"
 textoBotonOferta,"Hacer oferta"
-tooltipInteresa,"Abre WhatsApp con un mensaje para consultar este producto."
-tooltipOferta,"Te permite escribir una oferta por este producto antes de enviar el mensaje."
+tooltipInteresa,"Clic para abrir WhatsApp y consultar."
+tooltipOferta,"Hacé una oferta"
