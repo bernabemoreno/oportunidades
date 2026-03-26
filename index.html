@@ -3,177 +3,494 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ventas Tecnología</title>
-
+  <title>Oportunidades en tecnología</title>
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f3f3f3;
+      font-family: Arial, sans-serif;
+      color: #142018;
+      background: linear-gradient(180deg, #eef5f1 0%, #f4f7f5 100%);
     }
-
-    header {
-      background: linear-gradient(90deg, #0f7b47, #1da65d);
+    .hero {
+      background: linear-gradient(135deg, #0f7b47, #169b58);
       color: white;
       text-align: center;
-      padding: 25px;
+      padding: 54px 20px 34px;
+      box-shadow: 0 14px 40px rgba(15,123,71,.18);
     }
-
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 60px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -1.3px;
+    }
+    .hero p {
+      margin: 14px auto 0;
+      max-width: 760px;
+      font-size: clamp(16px, 2.1vw, 21px);
+      color: rgba(255,255,255,.92);
+    }
     .contenedor {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
+      width: min(1180px, calc(100% - 28px));
+      margin: -18px auto 40px;
+      position: relative;
+      z-index: 2;
     }
-
+    .servicio {
+      background: linear-gradient(135deg, #ffffff, #f8fbf9);
+      border: 1px solid rgba(20, 32, 24, .08);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 18px 40px rgba(18,35,23,.08);
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .servicio h2 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 3.2vw, 38px);
+      line-height: 1.1;
+    }
+    .servicio p {
+      margin: 6px 0;
+      color: #5f6f64;
+      font-size: 17px;
+    }
+    .servicio-precio {
+      display: inline-block;
+      margin-top: 12px;
+      background: #e9f7ef;
+      color: #0f7b47;
+      font-weight: bold;
+      padding: 11px 16px;
+      border-radius: 14px;
+      font-size: 16px;
+    }
+    .servicio-box {
+      background: linear-gradient(135deg, rgba(22,155,88,.14), rgba(15,123,71,.08));
+      border: 1px solid rgba(22,155,88,.12);
+      border-radius: 24px;
+      padding: 22px;
+      text-align: center;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .servicio-box strong {
+      font-size: 20px;
+      color: #0f7b47;
+    }
+    .servicio-box span {
+      margin-top: 8px;
+      color: #5f6f64;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+    }
     .card {
-      background: white;
-      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(20, 32, 24, .08);
+      border-radius: 22px;
       overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 18px 40px rgba(18,35,23,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
-
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(18,35,23,.12);
+    }
+    .imagen-wrap {
+      position: relative;
+      background: linear-gradient(180deg, #f7faf8, #edf3ef);
+      cursor: zoom-in;
+      overflow: hidden;
+    }
+    .imagen-wrap::after {
+      content: "Click para ampliar";
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      background: rgba(20,32,24,.78);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .2s ease;
+      pointer-events: none;
+    }
+    .card:hover .imagen-wrap::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .card img {
       width: 100%;
-      height: 250px;
+      height: 280px;
       object-fit: cover;
-      background: #ddd;
+      display: block;
+      transition: transform .25s ease;
+      background: #e6ece8;
     }
-
+    .card:hover img {
+      transform: scale(1.03);
+    }
     .card-body {
-      padding: 15px;
-    }
-
-    .precio {
-      color: #1da65d;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .estado {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 5px 10px;
-      border-radius: 10px;
-      background: #e0f5e8;
-      color: #1da65d;
-      font-size: 14px;
-    }
-
-    .acciones {
+      padding: 18px 18px 20px;
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    button {
+      flex-direction: column;
+      gap: 12px;
       flex: 1;
-      padding: 12px;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -.6px;
+    }
+    .precio {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      color: #0f7b47;
+      letter-spacing: -1px;
+    }
+    .estado {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: #e9f7ef;
+      color: #0f7b47;
+      border: 1px solid rgba(22,155,88,.14);
+    }
+    .acciones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .tooltip { position: relative; }
+    .tooltip::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(6px);
+      background: rgba(20,32,24,.92);
+      color: white;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: .18s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 4px);
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: rgba(20,32,24,.92);
+      opacity: 0;
+      visibility: hidden;
+      transition: .18s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .tooltip:hover::before, .tooltip:hover::after, .tooltip:focus-within::before, .tooltip:focus-within::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    button {
       border: none;
-      border-radius: 8px;
+      padding: 15px 16px;
+      border-radius: 15px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 15px;
+      min-height: 52px;
+      transition: transform .16s ease;
     }
-
+    button:hover { transform: translateY(-1px); }
     .btn-interesa {
-      background: #1da65d;
+      background: linear-gradient(135deg, #169b58, #0f7b47);
       color: white;
+      box-shadow: 0 10px 18px rgba(22,155,88,.18);
     }
-
     .btn-oferta {
-      background: #ddd;
+      background: #eef1ef;
+      color: #142018;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 13, 10, .86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
+      backdrop-filter: blur(4px);
+    }
+    .modal.activo { display: flex; }
+    .modal-contenido {
+      position: relative;
+      max-width: min(1100px, 96vw);
+      max-height: 92vh;
+      width: fit-content;
+    }
+    .modal img {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      max-height: 92vh;
+      border-radius: 20px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      background: #fff;
+    }
+    .modal-cerrar {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      color: #111;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    }
+    .sin-productos {
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      text-align: center;
+      color: #5f6f64;
+      box-shadow: 0 18px 40px rgba(18,35,23,.08);
+    }
+    @media (max-width: 900px) {
+      .servicio { grid-template-columns: 1fr; }
+      .card img { height: 240px; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 42px 16px 28px; }
+      .contenedor { width: min(100% - 16px, 1180px); }
+      .servicio, .card-body { padding: 16px; }
+      .card h3 { font-size: 24px; }
+      .precio { font-size: 30px; }
+      .acciones { grid-template-columns: 1fr; }
+      .card img { height: 220px; }
     }
   </style>
 </head>
-
 <body>
+  <header class="hero">
+    <div class="hero-badge">Ventas y oportunidades</div>
+    <h1>Oportunidades en tecnología</h1>
+    <p>Equipos, accesorios y servicio técnico. Elegí lo que te interesa y consultame directo por WhatsApp.</p>
+  </header>
 
-<header>
-  💻 Reparación de PC  
-  <br><br>
-  Presupuesto sin cargo  
-  <br>
-  Limpieza desde $20.000
-</header>
+  <main class="contenedor">
+    <section class="servicio">
+      <div>
+        <h2>💻 Reparación de PC y notebooks</h2>
+        <p>Presupuesto sin cargo, atención personalizada y soluciones claras.</p>
+        <p>Instalaciones, optimización, limpieza, revisión general y más.</p>
+        <span class="servicio-precio">Limpieza desde $20.000</span>
+      </div>
+      <div class="servicio-box">
+        <strong>Consultá tu equipo sin compromiso</strong>
+        <span>Podés escribir directo por WhatsApp para revisar tu caso o pedir presupuesto.</span>
+      </div>
+    </section>
 
-<div class="contenedor" id="productos"></div>
+    <section class="grid" id="productos">
+      <div class="sin-productos">Cargando productos...</div>
+    </section>
+  </main>
 
-<script>
-function formatearPrecio(num) {
-  return Number(num).toLocaleString("es-AR");
-}
+  <div class="modal" id="modalImagen" aria-hidden="true">
+    <div class="modal-contenido">
+      <button class="modal-cerrar" id="cerrarModal" aria-label="Cerrar imagen">×</button>
+      <img id="imagenModal" src="" alt="Vista ampliada del producto">
+    </div>
+  </div>
 
-function enviarWhatsApp(nombre, precio, estado, tipo = "consulta") {
-  const mensaje = tipo === "oferta"
-    ? `Hola, quiero hacer una oferta por: ${nombre} ($${precio})`
-    : `Hola, me interesa: ${nombre} ($${precio})`;
+  <script>
+    function formatearPrecio(num) {
+      return Number(num).toLocaleString("es-AR");
+    }
 
-  const url = "https://wa.me/?text=" + encodeURIComponent(mensaje);
-  window.open(url, "_blank");
-}
+    var numeroWhatsApp = "5493516869573";
+    var modal = document.getElementById("modalImagen");
+    var imagenModal = document.getElementById("imagenModal");
+    var cerrarModal = document.getElementById("cerrarModal");
 
-fetch("productos.csv")
-  .then(res => res.text())
-  .then(texto => {
+    function abrirModal(src, alt) {
+      imagenModal.src = src;
+      imagenModal.alt = alt || "Imagen del producto";
+      modal.classList.add("activo");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
 
-    const lineas = texto.trim().split("\n");
-    const contenedor = document.getElementById("productos");
+    function cerrarModalImagen() {
+      modal.classList.remove("activo");
+      modal.setAttribute("aria-hidden", "true");
+      imagenModal.src = "";
+      document.body.style.overflow = "";
+    }
 
-    lineas.forEach(linea => {
-
-      const [nombre, precio, estado, imagen] = linea.split(",").map(x => x.trim());
-
-      console.log("Imagen:", imagen);
-
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const img = document.createElement("img");
-
-      // 🔥 ESTA ES LA CLAVE (funciona seguro en GitHub)
-      img.src = new URL(imagen, window.location.href).href;
-
-      img.alt = nombre;
-
-      img.onerror = function () {
-        console.log("Error cargando imagen:", this.src);
-        this.src = "https://via.placeholder.com/400x250?text=Sin+imagen";
-      };
-
-      const body = document.createElement("div");
-      body.className = "card-body";
-
-      body.innerHTML = `
-        <h3>${nombre}</h3>
-        <div class="precio">$${formatearPrecio(precio)}</div>
-        <div class="estado">${estado}</div>
-
-        <div class="acciones">
-          <button class="btn-interesa">Me interesa</button>
-          <button class="btn-oferta">Oferta</button>
-        </div>
-      `;
-
-      card.appendChild(img);
-      card.appendChild(body);
-
-      body.querySelector(".btn-interesa").onclick = () => {
-        enviarWhatsApp(nombre, precio, estado);
-      };
-
-      body.querySelector(".btn-oferta").onclick = () => {
-        enviarWhatsApp(nombre, precio, estado, "oferta");
-      };
-
-      contenedor.appendChild(card);
-
+    cerrarModal.addEventListener("click", cerrarModalImagen);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) cerrarModalImagen();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("activo")) {
+        cerrarModalImagen();
+      }
     });
 
-  })
-  .catch(err => {
-    console.error("Error cargando CSV:", err);
-  });
-</script>
+    function enviarWhatsApp(nombre, precio, estado, tipo) {
+      var numero = (numeroWhatsApp || "5493516869573").replace(/\\D/g, "");
+      var mensaje = "";
 
+      if (tipo === "oferta") {
+        var oferta = prompt("Ingresá tu oferta para " + nombre);
+        if (!oferta) return;
+        mensaje = "Hola, quiero hacer una oferta por " + nombre + ". Precio publicado: $" + formatearPrecio(precio) + ". Estado: " + estado + ". Mi oferta es: $" + oferta + ".";
+      } else {
+        mensaje = "Hola, me interesa " + nombre + ". Precio publicado: $" + formatearPrecio(precio) + ". Estado: " + estado + ". ¿Sigue disponible?";
+      }
+
+      var url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+      window.open(url, "_blank");
+    }
+
+    fetch("productos.csv")
+      .then(function (res) { return res.text(); })
+      .then(function (texto) {
+        var lineas = texto
+          .split(/\\r?\\n/)
+          .map(function (linea) { return linea.trim(); })
+          .filter(function (linea) { return linea !== ""; });
+
+        var contenedor = document.getElementById("productos");
+        contenedor.innerHTML = "";
+
+        if (!lineas.length) {
+          contenedor.innerHTML = '<div class="sin-productos">No hay productos cargados todavía.</div>';
+          return;
+        }
+
+        var primeraLinea = lineas.shift();
+        numeroWhatsApp = primeraLinea.replace(/\\D/g, "") || "5493516869573";
+
+        if (!lineas.length) {
+          contenedor.innerHTML = '<div class="sin-productos">No hay productos cargados debajo del número de WhatsApp.</div>';
+          return;
+        }
+
+        lineas.forEach(function (linea) {
+          var partes = linea.split(",").map(function (x) { return x.trim(); });
+          var nombre = partes[0];
+          var precio = partes[1];
+          var estado = partes[2];
+          var imagen = partes[3];
+          if (!nombre || !precio || !estado || !imagen) return;
+
+          var card = document.createElement("article");
+          card.className = "card";
+
+          var imagenWrap = document.createElement("div");
+          imagenWrap.className = "imagen-wrap";
+          imagenWrap.title = "Click para ver la imagen en tamaño completo";
+
+          var img = document.createElement("img");
+          var rutaImagen = new URL(imagen, window.location.href).href;
+          img.src = rutaImagen;
+          img.alt = nombre;
+          img.loading = "lazy";
+          img.onerror = function () {
+            this.src = "https://via.placeholder.com/900x600?text=Sin+imagen";
+          };
+          imagenWrap.appendChild(img);
+          imagenWrap.addEventListener("click", function () {
+            abrirModal(rutaImagen, nombre);
+          });
+
+          var body = document.createElement("div");
+          body.className = "card-body";
+          body.innerHTML = '<h3>' + nombre + '</h3>' +
+            '<div class="precio">$' + formatearPrecio(precio) + '</div>' +
+            '<div class="estado">' + estado + '</div>' +
+            '<div class="acciones">' +
+              '<div class="tooltip" data-tooltip="Abre WhatsApp con un mensaje para consultar este producto">' +
+                '<button class="btn-interesa">Me interesa</button>' +
+              '</div>' +
+              '<div class="tooltip" data-tooltip="Te permite escribir una oferta por este producto antes de enviar el mensaje">' +
+                '<button class="btn-oferta">Hacer oferta</button>' +
+              '</div>' +
+            '</div>';
+
+          body.querySelector(".btn-interesa").onclick = function () {
+            enviarWhatsApp(nombre, precio, estado, "consulta");
+          };
+          body.querySelector(".btn-oferta").onclick = function () {
+            enviarWhatsApp(nombre, precio, estado, "oferta");
+          };
+
+          card.appendChild(imagenWrap);
+          card.appendChild(body);
+          contenedor.appendChild(card);
+        });
+
+        if (!contenedor.children.length) {
+          contenedor.innerHTML = '<div class="sin-productos">No se pudieron mostrar productos. Revisá el formato del CSV.</div>';
+        }
+      })
+      .catch(function (err) {
+        console.error("Error cargando CSV:", err);
+        document.getElementById("productos").innerHTML = '<div class="sin-productos">No se pudo cargar el archivo productos.csv.</div>';
+      });
+  </script>
 </body>
 </html>
